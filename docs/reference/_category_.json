@@ -1,0 +1,8 @@
+{
+  "label": "Documentation - Reference",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Reference Manual of Schema and API."
+  }
+}
