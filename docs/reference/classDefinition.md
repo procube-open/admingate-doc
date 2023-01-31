@@ -49,5 +49,4 @@ sidebar_position: 10
 |インスタンスのパス|/IDManager/\_classes/:className|
 |リポジトリ編集時のパス|/IDManager/\_sandboxClasses|
 
-**Parent topic:**[データベース設定](../reference/dbconfig.md)
 

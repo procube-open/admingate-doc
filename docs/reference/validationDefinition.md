@@ -37,5 +37,3 @@ author: Procube Co.,Ltd.
 |クラスの定義のパス|/IDManager/\_classes/\_validationDefinition|
 |インスタンスのパス|クラスのオブジェクトに内包されており、このオブジェクトには REST で直接アクセスすることはできない。|
 
-**Parent topic:**[データベース設定](../reference/dbconfig.md)
-
