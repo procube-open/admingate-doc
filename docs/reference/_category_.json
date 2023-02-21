@@ -1,8 +1,8 @@
 {
-  "label": "Documentation - Reference",
-  "position": 3,
+  "label": "旧 ID Manager Schema & API",
+  "position": 40,
   "link": {
     "type": "generated-index",
-    "description": "Reference Manual of Schema and API."
+    "description":  "旧 ID Manager Schema & APIを参考のためにインポートしたもの"
   }
 }

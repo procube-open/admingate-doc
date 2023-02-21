@@ -1,0 +1,8 @@
+{
+  "label": "スキーマ",
+  "position": 20,
+  "link": {
+    "type": "generated-index",
+    "description": "teigi におけるデータ型の定義について説明します"
+  }
+}

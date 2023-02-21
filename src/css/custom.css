@@ -6,14 +6,22 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
+  --ifm-color-primary: #7e6620;
+  --ifm-color-primary-dark: #715c1d;
+  --ifm-color-primary-darker: #6b571b;
+  --ifm-color-primary-darkest: #584716;
+  --ifm-color-primary-light: #8b7023;
+  --ifm-color-primary-lighter: #917525;
+  --ifm-color-primary-lightest: #a4852a;
+  --ifm-code-font-size: 90%;
+  --ifm-font-size-base: 12px;
+  --ifm-h1-font-size: 1.8 rem;
+  --ifm-h2-font-size: 1.6 rem;
+  --ifm-h3-font-size: 1.4 rem;
+  --doc-sidebar-width: 240px !important;
+  --ifm-font-family-base: "Helvetica Neue", Arial,
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    Meiryo, sans-serif;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
@@ -27,4 +35,17 @@
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+.markdown h1:first-child {
+  --ifm-h1-font-size: 1.8rem;
+  --ifm-heading-color: var(--ifm-color-primary-dark);
+}
+.markdown h2 {
+  --ifm-h2-font-size: 1.6rem;
+  --ifm-heading-color: var(--ifm-color-primary-dark);
+}
+.markdown h3 {
+  --ifm-h3-font-size: 1.4rem;
+  --ifm-heading-color: var(--ifm-color-primary-dark);
 }

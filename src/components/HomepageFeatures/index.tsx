@@ -24,10 +24,9 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/Vue.svg').default,
     description: (
       <>
+        Teigi が生成するWeb UI は Vue.js を使用して SPA として実装されます。
         SPAではブラウザによるページ遷移を行わずにコンテンツの切り替えなどを行うことで、ユーザー体験（UX）を大きく向上させることができます。 
-        従来のWeb ページでは遷移時にページ全体が書き換わりますが、SPAでは JavaScript を用いてページ内の HTML の一部を差し替えてコンテンツを切り替えています。 
-        これにより、ブラウザの挙動に縛られないUIの実現や、パフォーマンスの向上が可能になります。
-      </>
+     </>
     ),
   },
   {

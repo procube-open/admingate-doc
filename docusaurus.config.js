@@ -3,13 +3,14 @@
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const simplePlantUML = require("@akebifiky/remark-simple-plantuml");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Teigi',
   tagline: 'ダッシュボード定義ツール',
   url: 'https://teigi.github.io',
-  baseUrl: '/',
+  baseUrl: '/teigi.github.io/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -40,6 +41,9 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          remarkPlugins: [
+            [simplePlantUML, {baseUrl: "https://www.plantuml.com/plantuml/svg"}]
+          ],
         },
       //   blog: {
       //     showReadingTime: true,
