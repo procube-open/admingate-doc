@@ -9,16 +9,16 @@ const simplePlantUML = require("@akebifiky/remark-simple-plantuml");
 const config = {
   title: 'Teigi',
   tagline: 'ダッシュボード定義ツール',
-  url: 'https://teigi.github.io',
-  baseUrl: '/teigi.github.io/',
+  url: 'https://docs.teigi.dev',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'mit0223', // Usually your GitHub org/user name.
-  projectName: 'teigi.github.io', // Usually your repo name.
+  organizationName: 'teigi-devel', // Usually your GitHub org/user name.
+  projectName: 'teigi-devel.github.io', // Usually your repo name.
   deploymentBranch: 'main',
   trailingSlash: false,
 
