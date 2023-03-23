@@ -28,7 +28,7 @@ JSONを TeigiObject にデシリアライズする場合は、値の型を確定
 Teigi のデータはすべてデータベース teigi に種別ごとにコレクションに分けて格納されます。
 ここで種別は Teigi オブジェクトのクラスの派生構造の第一階層となります。
 
-```plantuml Test
+```plantuml Class
 !theme spacelab
 @startuml
 Class TeigiObject {

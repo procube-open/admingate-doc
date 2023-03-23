@@ -4,6 +4,53 @@ sidebar_position: 1
 
 # Overview
 
+Teigi は様々なパッケージをインストールすることでアプリケーションを追加することができるローコードアプリケーションフレームワークです。
+
+```plantuml package-manager
+@startuml
+left to right direction
+skinparam roundcorner 25
+card Teigiリポジトリ as repository {
+    package CMSパッケージ as cms {
+      archimate #Technology "CMSコンテナ"  <<application-component>>
+      archimate #Technology "CMS構成情報" <<application-data-object>>
+    }
+    package ダッシュボードパッケージ as dashboard {
+      archimate #Technology "ダッシュボードコンテナ" <<application-component>>
+      archimate #Technology "ダッシュボード構成情報"  <<application-data-object>>
+    }
+    package ID管理パッケージ as idm {
+      archimate #Technology "ダッシュボード構成情報"  <<application-data-object>>
+      archimate #Technology "クラス定義"  <<application-data-object>>
+      archimate #Technology "DB構成情報"  <<application-data-object>>
+      archimate #Technology "プロビジョニング設定"  <<application-data-object>>
+    }
+}
+
+card Teigiコンテナ基盤 as hive {
+    archimate #Technology "API Gateway" as gateway <<application-component>>
+    archimate #Technology "構成情報管理システム" as config <<application-component>>
+    archimate #Technology "ダッシュボードサービス" as dashboardService <<application-component>>
+    archimate #Technology "CMSサービス" as CMSService <<application-component>>
+    archimate #Technology "ID管理サービス" as IDMService <<application-component>>
+}
+
+cms --> config
+dashboard --> config
+idm --> config
+gateway --> config
+gateway --> dashboardService
+gateway --> CMSService
+gateway --> IDMService
+config --> dashboardService
+config --> CMSService
+config --> IDMService
+@enduml
+```
+
+
+## プロビジョニング
+
 Teigi は、アプリケーションを定義するオブジェクトからアプリケーションの実行用のソースコード、構成情報、アクセス制御情報、バージョン変換ツールなどを生成し、各種実行エンジンに展開するローコード開発ツールです。この展開のことをプロビジョニングと呼びます。
 
 ```mermaid
