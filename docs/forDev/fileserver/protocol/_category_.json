@@ -1,0 +1,8 @@
+{
+  "label": "プロトコル",
+  "position": 40,
+  "link": {
+    "type": "generated-index",
+    "description":  "ファイルサーバにアクセス可能なプロトコル一覧"
+  }
+}

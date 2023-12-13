@@ -42,7 +42,7 @@ const config = {
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
           remarkPlugins: [
-            [simplePlantUML, {baseUrl: "https://www.plantuml.com/plantuml/svg"}]
+            [simplePlantUML, { baseUrl: "https://www.plantuml.com/plantuml/svg" }]
           ],
         },
       //   blog: {
@@ -75,7 +75,18 @@ const config = {
             position: 'left',
             label: 'Documentation',
           },
-          // {to: '/blog', label: 'Blog', position: 'left'},
+          {
+            type: 'docSidebar',
+            sidebarId: 'forUserSidebar',
+            position: 'left',
+            label: '利用者ガイド',
+          },
+          {
+            type: 'docSidebar',
+            sidebarId: 'forDevSidebar',
+            position: 'left',
+            label: '開発者ガイド',
+          },
           // {
           //   href: 'http://localhost:3000',
           //   label: 'GitHub',

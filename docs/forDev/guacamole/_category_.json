@@ -1,0 +1,8 @@
+{
+  "label": "Guacamole",
+  "position": 30,
+  "link": {
+    "type": "generated-index",
+    "description":  "ブラウザによるリモート接続を実現する機能"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "label": "ファイルサーバ",
+  "position": 40,
+  "link": {
+    "type": "generated-index",
+    "description":  "Admin Gate は複数のプロトコルでアクセス可能なファイルサーバを持つ。"
+  }
+}

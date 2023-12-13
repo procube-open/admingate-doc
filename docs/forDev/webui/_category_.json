@@ -1,0 +1,8 @@
+{
+  "label": "WebUI",
+  "position": 50,
+  "link": {
+    "type": "generated-index",
+    "description":  "Admin GateのWebUIを開発する上での注意事項"
+  }
+}

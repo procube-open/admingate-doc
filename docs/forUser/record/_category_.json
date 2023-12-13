@@ -1,0 +1,8 @@
+{
+  "label": "履歴閲覧",
+  "position": 20,
+  "link": {
+    "type": "generated-index",
+    "description":  "履歴閲覧"
+  }
+}
