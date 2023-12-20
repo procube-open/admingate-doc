@@ -2,6 +2,5 @@
 sidebar_position: 1
 ---
 # 概要
-
-
-## テーマ
+AdminGateのWebUIを開発するにあたってロゴや色合いを変えたい場合の指針を記す。
+WebUIは[React-Admin](https://marmelab.com/react-admin/Tutorial.html)の基本構成に則って記述されているので、その他細かい点についてはこちらのドキュメントを参照されたい。

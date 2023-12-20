@@ -63,18 +63,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'Teigi',
-        logo: {
-          alt: 'Teigi Logo',
-          src: 'img/logo.svg',
-        },
         items: [
-          {
-            type: 'doc',
-            docId: 'overview',
-            position: 'left',
-            label: 'Documentation',
-          },
           {
             type: 'docSidebar',
             sidebarId: 'forUserSidebar',
