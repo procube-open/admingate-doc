@@ -40,4 +40,5 @@ fastify <-> 機器 : SFTP
 | `mkdirRes`    | `path`               | ディレクトリ作成が完了すると送信される。`path`は`mkdir`のものがそのまま送信される。。|
 | `rmdirRes`    | `path`               | 削除が完了すると送信される。`path`は`rmdir`のものがそのまま送信される。|
 | `deleteRes`    | `path`               |削除が完了すると送信される。`path`は`delete`のものがそのまま送信される。|
-| `transfer`    | `id`,`uuid`,`cwd`,`dirId`               | `id`の一文字目が`"/"`の場合は接続先からファイルサーバへファイルが転送され、それ以外の場合はファイルサーバから接続先へ転送される。|
+| `transferRes`    | `id`,`uuid`,`cwd`,`dirId`               | 転送が完了すると送信される。パラメータは全て`transfer`で送られてきたそのまま返す。|
+| `error`    |  `error`,`info`,`inc`              | サーバー側でエラーが発生した時に送信される。`error`はエラーメッセージが、`info`はなんのリクエストで発生したかが格納される。|
