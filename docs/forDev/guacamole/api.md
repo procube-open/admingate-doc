@@ -14,11 +14,11 @@ AdminGateで使用されているAPIのみを表にする。
 | パス                                                                      | Method | レスポンス内容                                                                                    |
 |---------------------------------------------------------------------------|--------|---------------------------------------------------------------------------------------------------|
 | `/guac-api/api/token`                                                     | GET    | トークンの取得ができる。                                                                          |
-| `/guac-api/api/session/data/postgresql/works`                             | GET    | 作業と一覧を取得できる。                                                                          |
-| `/guac-api/api/session/data/postgresql/works/:workId`                     | GET    | 作業のうち`identifier`が`:workId`のものを単体取得できる。                                         |
+| `/guac-api/api/session/data/postgresql/works`                             | GET    | 作業の一覧を取得できる。                                                                          |
+| `/guac-api/api/session/data/postgresql/works/:workId`                     | GET    | `identifier`が`{workId}`の作業を単体取得できる。                                         |
 | `/guac-api/api/session/data/postgresql/notifications`                     | GET    | お知らせの一覧を取得できる。                                                                      |
-| `/guac-api/api/session/data/postgresql/connections/:id/parameters`        | GET    | 接続先のうち`identifier`が`:id`のパラメータを取得できる。                                         |
+| `/guac-api/api/session/data/postgresql/connections/:id/parameters`        | GET    | `identifier`が`{id}`の接続先のパラメータを取得できる。                                         |
 | `/guac-api/api/session/data/postgresql/activeConnections`                 | GET    | アクティブな接続の一覧を取得できる。                                                              |
 | `/guac-api/api/session/data/postgresql/history/connections`               | GET    | 接続履歴一覧が取得できる。                                                                        |
-| `/guac-api/api/session/data/postgresql/history/connections/:id/logs/:key` | GET    | 履歴のうち`identifier`が`:id`で`logs`のkeyが`:key`のものをダウンロードできる。                    |
+| `/guac-api/api/session/data/postgresql/history/connections/:id/logs/:key` | GET    | `identifier`が`{id}`の履歴で、`logs`のkeyが`{key}`のものをダウンロードできる。                    |
 | `/guac-api/api/session/data/postgresql/activeConnections`                 | PATCH  | bodyに指定された内容をアクティブな接続に対して実行できる。AdminGateでは`remove`のみ使用している。 |

@@ -68,14 +68,27 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'forUserSidebar',
             position: 'left',
-            label: '利用者ガイド',
+            label: '利用者マニュアル',
+          },
+          {
+            type: 'docSidebar',
+            sidebarId: 'forOpSidebar',
+            position: 'left',
+            label: '運用管理者マニュアル',
+          },
+          {
+            type: 'docSidebar',
+            sidebarId: 'forSESidebar',
+            position: 'left',
+            label: '導入マニュアル',
           },
           {
             type: 'docSidebar',
             sidebarId: 'forDevSidebar',
             position: 'left',
-            label: '開発者ガイド',
+            label: '開発者マニュアル',
           },
+          
           // {
           //   href: 'http://localhost:3000',
           //   label: 'GitHub',

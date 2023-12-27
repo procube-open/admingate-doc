@@ -3,7 +3,8 @@ sidebar_position: 20
 ---
 # FTP
 
-ベースとなるパッケージとして`ftp-srv`を用いる。
+ベースとなるパッケージとして[`ftp-srv`](https://www.npmjs.com/package/ftp-srv)を用いる。
+`metadata.accessHistory`の`Protocol`は`ftp`で記録される。
 
 ### ログイン方法
 ユーザー名として作業IDを入力し、作業オブジェクトに登録されたパスワードを入力することでログインできる。

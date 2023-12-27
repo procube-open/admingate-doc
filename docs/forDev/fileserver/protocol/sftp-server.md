@@ -2,7 +2,8 @@
 sidebar_position: 30
 ---
 # SFTP
-ベースとなるパッケージとして`ssh2`を用いる。
+ベースとなるパッケージとして[`ssh2`](https://www.npmjs.com/package/ssh2)を用いる。
+`metadata.accessHistory`の`Protocol`は`sftp`で記録される。
 FTPと異なる点のみ以下に記す。
 
 ### ログイン方法

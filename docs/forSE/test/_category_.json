@@ -1,0 +1,8 @@
+{
+  "label": "負荷試験",
+  "position": 40,
+  "link": {
+    "type": "generated-index",
+    "description":  "guacamoleの負荷試験結果など"
+  }
+}

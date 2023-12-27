@@ -1,8 +1,0 @@
-{
-  "label": "ファイルマネージャー",
-  "position": 10,
-  "link": {
-    "type": "generated-index",
-    "description":  "WebUI上でファイルサーバにアクセスする。"
-  }
-}
