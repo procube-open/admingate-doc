@@ -7,8 +7,8 @@ const simplePlantUML = require("@akebifiky/remark-simple-plantuml");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Teigi',
-  tagline: 'ダッシュボード定義ツール',
+  title: 'Admin Gate ドキュメント',
+  tagline: '特権ID管理ツール',
   url: 'https://docs.teigi.dev',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -68,13 +68,13 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'forUserSidebar',
             position: 'left',
-            label: '利用者マニュアル',
+            label: '利用マニュアル',
           },
           {
             type: 'docSidebar',
             sidebarId: 'forOpSidebar',
             position: 'left',
-            label: '運用管理者マニュアル',
+            label: '運用マニュアル',
           },
           {
             type: 'docSidebar',
@@ -86,7 +86,7 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'forDevSidebar',
             position: 'left',
-            label: '開発者マニュアル',
+            label: '開発マニュアル',
           },
           
           // {
@@ -99,15 +99,15 @@ const config = {
       footer: {
         style: 'dark',
         links: [
-          {
-            title: 'Docs',
-            items: [
-              {
-                label: 'Documentation',
-                to: '/docs/overview',
-              },
-            ],
-          },
+          // {
+          //   title: 'Docs',
+          //   items: [
+          //     {
+          //       label: 'Documentation',
+          //       to: '/docs/overview',
+          //     },
+          //   ],
+          // },
           // {
           //   title: 'Community',
           //   items: [
