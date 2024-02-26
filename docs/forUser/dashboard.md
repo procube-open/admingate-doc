@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# 概要
+# WebUI概要
 
 ## ホームページ
 
