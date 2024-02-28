@@ -13,6 +13,6 @@ sidebar_position: 10
 ### IDManager
 作業の申請と承認、接続先の追加などを行う。
 
-## 構成図
+## サービス構成図
 
 ![構成図](/img/composition.png)
