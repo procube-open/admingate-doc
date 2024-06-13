@@ -1,0 +1,8 @@
+{
+  "label": "Socket Warp",
+  "position": 50,
+  "link": {
+    "type": "generated-index",
+    "description":  "ソケットワープについて"
+  }
+}
