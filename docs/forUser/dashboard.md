@@ -34,6 +34,9 @@ sidebar_position: 1
 
 ## モード選択
 作業者モードと管理者モードを選択することができ、ユーザによってそれぞれアクセス可能なページが異なる。
+詳細は[こちら](/docs/forUser/work)
+
+<img src="/img/ModeChange.png" width="50%"/>
 
 ## フィルタ
 
@@ -64,5 +67,5 @@ sidebar_position: 1
 
 逆に削除したい場合は、削除したいフィルタ条件をクリックすると右上がマイナスボタンになり、これを押すことで削除できる。
 
-![フィルタ削除](/img/DeleteFilter.png)
+<img src="/img/DeleteFilter.png" width="50%"/>
 
