@@ -1,0 +1,8 @@
+{
+  "label": "各種サービスの構築",
+  "position": 20,
+  "link": {
+    "type": "generated-index",
+    "description":  "サービスの一覧"
+  }
+}
