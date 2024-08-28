@@ -40,6 +40,18 @@ admingate-client で利用する環境変数は以下のとおりです。
 roles(または initialize-roles)で`/usr/src/app/frontend`配下に存在するファイルを編集することで favicon や WebUI 左上のバーの画像を入れ替えることができます。
 initialize-roles で行った編集はファイルをボリューム化することで永続化することができます。
 
+### file-server のタスクサンプル
+
+file-server ロールの files フォルダに test-favicon.ico を置いて、以下のタスクを実行することによって favicon を置き換えることができます。
+
+```yml
+- name: replace favicon.ico
+  copy:
+    src: test-favicon.ico
+    dest: /usr/src/app/frontend/favicon.ico
+  become: true
+```
+
 ## ウイルススキャン
 
 `FILESERVER_AV`環境変数を`true`にすることによってアップロードされたファイルのステータスが`WAITFOR_AVSCAN`でアップロードされるようになります。
