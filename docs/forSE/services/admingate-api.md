@@ -27,7 +27,7 @@ admingate-api には以下のボリュームを設定します。
 
 | パス | 説明 |
 | --- | --- |
-| /var/lib/guacamole/recordings | 接続履歴を保存するディレクトリをボリューム化します。 |
+| /var/lib/guacamole/recordings | 接続履歴を保存するディレクトリをボリューム化します。別途記載の guacd のボリュームと一致するようにしてください。 |
 
 ## roles の設定
 
