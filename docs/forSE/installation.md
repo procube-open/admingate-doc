@@ -160,7 +160,7 @@ services:
       from: mongo
       roles:
         - python-aptk
-        - fileserver-initdb
+        - mongo-initdb
     environment:
       MONGO_INITDB_DATABASE: files_db
       MONGO_INITDB_ROOT_USERNAME: root
@@ -205,14 +205,12 @@ services:
       HIVE_VIP: yyy.yyy.yyy.yyy
   session-manager:
     image:
-      from: python:alpine3.18
+      from: procube/session-manager
       roles:
         - hive-trust-ca
-        - session-manager
         - hive-certificate
-    entrypoint:
-      - /docker-entrypoint.sh
     environment:
+      - HIVE_SERVERS: "hive0.admin-gate,hive1.admin-gate,hive2.admin-gate"
       - IMAGE_CHROME: "{{ groups['repository'] | intersect(groups[hive_stage]) | first }}:5000/image_chrome:latest"
       - WEBDAV_SERVER: "yyy.yyy.yyy.yyy"
       - WEBDAV_PORT: "2000"
