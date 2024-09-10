@@ -44,17 +44,35 @@ admingate-api で利用する roles について説明します。
 guacamole のタスクサンプルとしては以下の通りです。
 
 ```yml
+# 拡張機能用のディレクトリを作成する
 - name: create extensions directory if does not exist
   file:
     path: extensions
     state: directory
   become: true
 
+# guacamole.propertiesファイルをコピーする
 - name: copy guacamole properties file
   copy:
     src: guacamole.properties
     dest: ./
   become: true
+
+# DB初期化用sqlファイルを生成する
+- name: create sql file
+  shell: /opt/guacamole/bin/initdb.sh --postgresql > /tmp/initdb.sql
+
+- name: Check if the generated sql file exists
+  stat:
+    path: /tmp/initdb.sql
+  register: generated_file_check
+
+- name: Copy the generated sql file to the local
+  when: generated_file_check.stat.exists
+  fetch:
+    src: /tmp/initdb.sql
+    dest: "{{ hive_temp_dir }}/initdb.sql"
+    flat: yes
 ```
 
 また、コピー元の設定ファイルとして guacamole.properties を用意する必要があります。

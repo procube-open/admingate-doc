@@ -141,7 +141,7 @@ services:
       HIVE_VIP: xxx.xxx.xxx.xxx
     placement:
       constraints:
-        - hive0
+        - node.hostname == hive0
   sftp-server:
     image: procube/sftp-server
     environment:
@@ -200,7 +200,7 @@ services:
       # WEBDAV_PUBLIC_VOLUME_USERNAME: public
     placement:
       constraints:
-        - hive1
+        - node.hostname == hive1
     labels:
       HIVE_VIP: yyy.yyy.yyy.yyy
   session-manager:

@@ -41,7 +41,7 @@ postgres で利用する roles について説明します。
 ```yml
 - name: put initdb.sql
   copy:
-    src: initdb.sql
+    src: "{{ hive_temp_dir }}/initdb.sql"
     dest: /docker-entrypoint-initdb.d/
 ```
 
