@@ -88,7 +88,12 @@ const config = {
             position: 'left',
             label: '開発マニュアル',
           },
-          
+          {
+            type: 'docSidebar',
+            sidebarId: 'forDemoSidebar',
+            position: 'left',
+            label: 'デモマニュアル',
+          },
           // {
           //   href: 'http://localhost:3000',
           //   label: 'GitHub',
