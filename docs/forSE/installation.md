@@ -47,26 +47,13 @@ services:
       GUAC_URL: https://admingate-client.admin-gate.procube-demo.jp/guacamole
       GUAC_API_URL: http://admingate-api:8080/guacamole
       SESSION_MANAGER_URL: http://session-manager:80
-      IDM_URL: https://idm.admin-gate.procube-demo.jp
       WS_URL: wss://admingate-client.admin-gate.procube-demo.jp
       LOGOUT_URL: https://admingate-client.admin-gate.procube-demo.jp/Shibboleth.sso/Logout
-      IDM_DISABLE_USER_API_URL: http://idm:8090/IDManager/disabledUserIF?_autoCommit=true
     ports:
       - 4200:4200
     labels:
       published_name: admingate-client
       HIVE_MARK: admingate-client
-      webgate:
-        authentication: saml
-        proxies:
-          - target_port: 4200
-            maxBodySize: 500
-            pathPattern: /
-            useWebSocket: true
-          - target_port: 8080
-            pathPattern: /guacamole
-            setService: admingate-api
-            useWebSocket: true
   admingate-api:
     image:
       from: procube/guacamole
