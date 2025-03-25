@@ -1,0 +1,8 @@
+{
+  "label": "AWS アクセス制御手順",
+  "position": 40,
+  "link": {
+    "type": "generated-index",
+    "description":  "AdminGate ワークフローの作業申請でAWS（Amazon Web Services）コンソールへのアクセスを制御する手順について説明します。"
+  }
+}
