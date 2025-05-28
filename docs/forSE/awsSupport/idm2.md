@@ -1,8 +1,8 @@
 ---
-sidebar_position: 30
+sidebar_position: 50
 ---
 
-# IDManagerでの設定
+# IDManager での設定
 
 ワークフロー申請に必要なIAMポリシーの管理、およびワークフローの申請・承認を行ないます。
 
