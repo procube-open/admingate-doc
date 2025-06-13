@@ -1,0 +1,237 @@
+---
+sidebar_position: 20
+---
+
+# パート２: AWS IAM コンソールでの設定
+
+AWS Management Console にサインインして、IAM(Identity and Access Management) コンソールを開きます。 アクセス管理で SAML ID プロバイダ、切り替え専用ロール、作業ロール登録用ロールを作成します。
+
+ここでは、コンソールからの作成の一例を示します。AWS CLI や AWS API から作成することも可能です。
+
+設定手順は以下のとおりです。
+
+1. [SAML ID プロバイダを作成する](#saml-id-プロバイダを作成する)
+1. [切り替え専用ロールを作成する](#切り替え専用ロールを作成する)
+1. [作業ロール登録用ロールを作成する](#作業ロール登録用ロールを作成する)
+1. [ID プロバイダとロールの ARN を取得する](#id-プロバイダとロールの-arn-を取得する)
+
+
+## SAML ID プロバイダを作成する
+
+AWS アカウントと IdP（AdminGate では Keycloak）の間に信頼関係を確立するロールを設定します。
+
+1. ナビゲーションペインで「アクセス管理」-「ID プロバイダ」を選択する
+1. 「プロバイダを追加」をクリックする
+1. プロバイダのタイプで「SAML」を選択する
+1. プロバイダ名に任意のわかりやすい名前を入力する。「IDManager の再構築」の章で設定した[環境変数名 aws_saml_idp](../hive.md#環境変数の設定) の値と同名にする（例: AGIDP）
+1. メタデータドキュメントの「ファイルを選択」をクリックし、[Keycloak でダウンロードしたメタデータXMLファイル](./part1_keycloak.md#keycloak-のメタデータxmlをダウンロードする)（例: urn_amazon_webservices/idp-metadata.xml）をアップロードする
+1. 「プロバイダを追加」をクリックする
+
+実行環境に応じて、SAML暗号化やタグを追加することができます。
+
+SAML ID プロバイダの作成方法の詳細については、AWS の公式ドキュメントをご覧ください。
+[AWS 公式ドキュメント - IAM で SAML ID プロバイダーを作成する](https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/id_roles_providers_create_saml.html)
+
+
+## 切り替え専用ロールを作成する
+
+AdminGate は、Keycloak で認証を行い、結果のSAML アサーションを AWS に送り、フェデレーティッドアイデンティティとしてログインします。
+また、フェデレーティッドアイデンティティには「切り替え専用ロール」を結び付けておき、ロールの切り替え以外は何にもアクセスできない状態で始めるようにします。
+
+ここでは、そのための「切り替え専用ロール」を作成します。
+
+1. ナビゲーションペインで「アクセス管理」-「ロール」を選択する
+1. 「ロールを作成」をクリックする
+1. ステップ 1: 信頼されたエンティティを選択 
+   1. 信頼されたエンティティタイプで「SAML 2.0 フェデレーション」を選択する
+   1. SAML 2.0 ベースのプロバイダーで、前項で作成したSAML ID プロバイダ（例: AGIDP）を選択する
+   1. 許可されるアクセスで「プログラムによるアクセスのみを許可する」または「プログラムと AWS マネジメントコンソールへのアクセスを許可する」を選択する（<font color="red">TODO: どちら？？</font>）
+   1. サインインエンドポイントで「リージョンのエンドポイント」および「非リージョンレベルのエンドポイント」をチェックする
+   1. リージョンを1つ以上選択する（例: 「アジアパシフィック（東京）（ap-northeast-1）」「アジアパシフィック（大阪）（ap-northeast-3）」）
+   1. 「サインインのエンドポイント URL」を開き、各エンドポイントの属性値をコピーし控えておく
+   1. 「次へ」をクリックする
+1. ステップ 2: 許可を追加
+   1. 許可ポリシーは選択せずに「次へ」をクリックする（インラインポリシーを後で設定する）<!--。ただし、予め切り替え専用のポリシー（カスタマー管理ポリシー）を作成している場合は、ここで選択し設定してもよい-->
+   1. 「次へ」をクリックする
+1. ステップ 3: 名前、確認、および作成
+   1. ロールの詳細
+      1. ロール名に任意のわかりやすい名前を入力する。「IDManager の再構築」の章で設定した[環境変数名 aws_role_switchonly](../hive.md#環境変数の設定) の値と同名にする（例: AG_SwitchOnlyRole）
+      1. 説明を入力する（例: switch only role for AdminGate）
+   1. "ステップ 1: 信頼されたエンティティを選択する" の内容を確認する（内容例: 後述の [信頼関係タブ - 信頼されたエンティティ（例：切り替え専用）](#信頼関係タブ---信頼されたエンティティ例切り替え専用)）
+   1. "ステップ 2: 許可を追加する" は未設定<!--。ただし、準備済みの切り替え専用のポリシー（カスタマー管理ポリシー）を選択した場合は内容を確認する-->
+   1. "ステップ 3: タグを追加する" で「新しいタグを追加する」をクリックし、次のキーを追加する
+      1. キー: `AdminGateAccess` 
+      1. 値: `true`
+   1. 「ロールを作成」をクリックする
+
+次に、「切り替え専用のポリシー」を作成します。<!--ただし、ロール作成時に準備済みの切り替え専用のポリシー（カスタマー管理ポリシー）を設定済みの場合は、この手順は必要ありません。-->
+
+1. ロール作成完了のメッセージの右の「ロールを表示」をクリックする、または、ロール一覧から先程作成したロール名（例: AG_SwitchOnlyRole）を検索してクリックしてロールを表示する
+1. 許可タブ - 許可ポリシーで「許可を追加」-「インラインポリシーを作成」を選択する
+1. ステップ 1: アクセス許可を指定
+   1. ポリシーエディタで JSON をクリック
+   1. 切り替え専用のポリシーを JSON 形式で作成する（例: 後述の [許可タブ - 許可ポリシー（例：切り替え専用）](#許可タブ---許可ポリシー例切り替え専用)）
+   1. 「次へ」をクリックする
+1. ステップ 2: 確認して作成
+   1. "ポリシーの詳細" で任意のわかりやすいポリシー名を入力する（例: AG_SwitchOnly）
+   1. "このポリシーで定義されている許可" の内容を確認する
+   1. 「ポリシーの作成」をクリックする
+
+:::note
+設定例ではインラインポリシーを使用していますが、カスタマー管理ポリシーとして予め作成しておき、それをロールの許可ポリシーとしてアタッチすることも可能です。
+ただし、管理ポリシーとインラインポリシーのどちらを選ぶかは、ユースケースを考慮して決定してください。
+:::
+
+詳細については、AWS の公式ドキュメントをご覧ください。
+
+[AWS 公式ドキュメント - SAML 2.0 フェデレーション用のロールを作成する (コンソール)](https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/id_roles_create_for-idp_saml.html)
+
+[AWS 公式ドキュメント - 管理ポリシーとインラインポリシーのいずれかを選択する](https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/access_policies-choosing-managed-or-inline.html)
+
+[AWS 公式ドキュメント - IAM ロールの作成](https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/id_roles_create.html)
+
+### 切り替え専用ロールの設定内容（例: AG_SwitchOnlyRole）
+#### 許可タブ - 許可ポリシー（例：切り替え専用）
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "sts:AssumeRole",
+            "Resource": "arn:aws:iam::123456789012:role/*"
+        }
+    ]
+}
+```
+:::note
+- Resource の ``123456789012`` は個別の AWS アカウントIDに変更
+:::
+
+#### 信頼関係タブ - 信頼されたエンティティ（例：切り替え専用）
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::123456789012:saml-provider/AGIDP"
+            },
+            "Action": "sts:AssumeRoleWithSAML",
+            "Condition": {
+                "StringEquals": {
+                    "SAML:aud": [
+                        "https://signin.aws.amazon.com/saml/acs/SAMLSP(省略)",
+                        "https://ap-northeast-1.signin.aws.amazon.com/saml/acs/SAMLSP(省略)",
+                        "https://ap-northeast-3.signin.aws.amazon.com/saml/acs/SAMLSP(省略)"
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+:::note
+- PrincipalのARNは、「[SAML ID プロバイダの作成](#saml-id-プロバイダの作成)」で作成した ID プロバイダの実際のARNに置き換える。``123456789012``　および ``AGIDP``
+- SAML:aud のリージョンコードは必要に応じて変更。また追加も可能
+- SAML:aud のサインインのエンドポイント URLの `SAMLSP(省略)` は作成した ID プロバイダのインスタンスID。ID プロバイダの詳細を開いて「サインイン URL」で確認することも可能
+:::
+
+#### タグタブ - タグ（例：切り替え専用）
+|キー|値|
+|:--|:--|
+|AdminGateAccess|true|
+
+
+## 作業ロール登録用ロールを作成する
+
+IDManager では申請したワークフローが承認されると、IAM に作業ロールをプロビジョニングします。その作業ロールを登録する権限を持つロール登録専用のロールを作成します。
+
+作成手順は、[切り替え専用ロールを作成する](#切り替え専用ロールを作成する)を参考にしてください。なお、当ロールの固有の値は以下のとおりです。
+- ロール名は任意だが、「IDManager の再構築」の章で設定した[環境変数名 aws_role_registration](../hive.md#環境変数の設定) の値と同名にする（例: AG_TemporarySecurityRole）。
+- アクセス許可の指定で、ロール登録専用のポリシーを JSON 形式で作成する（例: 後述の [許可タブ - 許可ポリシー（例：ロール登録専用）](#許可タブ---許可ポリシー例ロール登録専用)）
+- タグの追加（<font color="red">TODO: 値および要否は未定</font>）
+
+### 作業ロール登録用ロールの設定内容（例: AG_TemporarySecurityRole）
+#### 許可タブ - 許可ポリシー（例：ロール登録専用）
+```json
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Sid": "Statement1",
+         "Effect": "Allow",
+         "Action": [
+            "iam:CreateRole"
+         ],
+         "Resource": [
+            "arn:aws:iam::123456789012:role/*"
+         ],
+         "Condition": {
+            "StringEquals": {
+               "aws:ResourceTag/ManagedBy": "AdminGate"
+            }
+         }
+      }
+   ]
+}
+```
+:::note
+- ``aws:ResourceTag/ManagedBy`` の Coditionは必須
+- Resource の ``123456789012`` は個別の AWS アカウントIDに変更
+:::
+
+#### 信頼関係タブ - 信頼されたエンティティ（例：ロール登録専用）
+```json
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Effect": "Allow",
+         "Principal": {
+            "Federated": "arn:aws:iam::123456789012:saml-provider/AGIDP"
+         },
+         "Action": "sts:AssumeRoleWithSAML",
+         "Condition": {
+            "StringEquals": {
+               "SAML:aud": [
+                  "https://signin.aws.amazon.com/saml/acs/SAMLSP(省略)",
+                  "https://ap-northeast-1.signin.aws.amazon.com/saml/acs/SAMLSP(省略)",
+                  "https://ap-northeast-3.signin.aws.amazon.com/saml/acs/SAMLSP(省略)"
+               ]
+            }
+         }
+      }
+   ]
+}
+```
+:::note
+- PrincipalのARNは、「[SAML ID プロバイダの作成](#saml-id-プロバイダの作成)」で作成した ID プロバイダの実際のARNに置き換える。``123456789012``　および ``AGIDP``
+- SAML:aud のリージョンコードは必要に応じて変更。また追加も可能
+- SAML:aud のサインインのエンドポイント URLの `SAMLSP(省略)` は作成した ID プロバイダのインスタンスID。ID プロバイダの詳細を開いて「サインイン URL」で確認することも可能
+:::
+
+## ID プロバイダとロールの ARN を取得する
+
+ここまでで作成した ID プロバイダとロールの ARN、および、サインインのエンドポイント URL を控えておきます。これらの値は KeyCloak の設定で必要です。
+
+- ID プロバイダ
+   1. ナビゲーションペインで「アクセス管理」-「ID プロバイダ」を選択する
+   1. [SAML ID プロバイダを作成する](#saml-id-プロバイダを作成する) で作成したプロバイダの詳細を開く（例: AGIDP）
+   1. 概要 - ARN の値を取得する
+
+- ロール
+   1. ナビゲーションペインで「アクセス管理」-「ロール」を選択する
+   1. [切り替え専用ロールを作成する](#切り替え専用ロールを作成する) で作成したロールの詳細を開く（例: AG_SwitchOnlyRole）
+   1. 概要 - ARN の値を取得する
+
+- サインインのエンドポイント URL
+
+   以下のいずれかの方法で取得する
+   1. [切り替え専用ロールを作成する](#切り替え専用ロールを作成する) で控えた「サインインのエンドポイント URL」
+   1. 「アクセス管理」-「ロール」- `対象ロール`（例: AG_SwitchOnlyRole）-「信頼関係」タブ -「信頼されたエンティティ」の `SAML:aud` に指定されている URL
+   1. 「アクセス管理」-「ID プロバイダ」- `対象プロバイダ`（例: AGIDP）-「メタデータ」-「メタデータドキュメント」-「サインイン URL」
+
+<font color="red">（TODO:未執筆） 作業ロール登録用ロールの ARN </font>

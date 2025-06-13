@@ -1,0 +1,8 @@
+{
+  "label": "SAML 連携の設定",
+  "position": 30,
+  "link": {
+    "type": "generated-index",
+    "description":  "Keycloak を Identity Provider (IdP) 、AWS IAM を Service Provider (SP) とした SAML 連携の設定を行ないます。ここでは、標準のSAMLエンティティー記述子XMLファイルを使用してクライアントをインポートする手順を示しますが、SAML 2.0クライアントを手動で登録することも可能です。"
+  }
+}
