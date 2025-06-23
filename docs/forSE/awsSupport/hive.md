@@ -10,6 +10,12 @@ AWS アクセス制御機能を利用するためには、IDManager のサービ
 
 `secrets.yml` の aws_account_id 属性値を、実行環境の AWSアカウントID（AWSアカウントを一意に識別する12桁の数値）に修正します。
 
+## AWS IAM ユーザのアクセスキーIDおよびシークレットアクセスキーの設定
+
+「SAML 連携の設定 > パート２: AWS IAM コンソールでの設定」の章の[ユーザーを作成する](./setupSaml/part2_aws.md#ユーザーを作成する) で保存した作業ロール登録用ユーザのアクセスキーおよびシークレットアクセスキーを設定します。
+
+`secrets.yml` の aws_access_key_id 属性値にアクセスキーID、aws_secret_access_key 属性値にシークレットアクセスキーを指定してください。
+
 ## 環境変数の設定
 
 IDManager で利用する環境変数は以下のとおりです。ここでは、AWS アクセス制御機能に必要な変更可能な変数のみ示します。
@@ -21,8 +27,11 @@ prov-tools ロールの `files/playbooks/vars/aws.yml` ファイルの環境変�
 | aws_region            | ap-northeast-1           | AWS サービスに接続するエンドポイントのリージョンコードです。リージョンコード一覧は[こちら](https://docs.aws.amazon.com/ja_jp/general/latest/gr/rande.html#regional-endpoints)をご覧ください。 |
 | aws_iam_role_prefix   | AGM_                     | AWS のロール名に付加するプレフィックス文字です。申請したワークフローが承認されると、作業申請の作業ID にこの値が付加されたロール名で AWS IAM のロールに登録されます。 |
 | aws_role_switchonly   | AG_SwitchOnlyRole        | フェデレーティッドアイデンティティに結びつける切り替え専用ロールのロール名です。「SAML 連携の設定 > パート２: AWS IAM コンソールでの設定」の章で作成する[切り替え専用ロール](./setupSaml/part2_aws.md#切り替え専用ロールを作成する)で作成するロール名を指定します。 |
-| aws_role_registration | AG_TemporarySecurityRole | 申請したワークフローが承認されると AWS IAM に作業ロールをプロビジョニングします。その作業ロールを登録する権限を持つロール登録専用のロール名です。これは「SAML 連携の設定 > パート２: AWS IAM コンソールでの設定」の章で作成する[作業ロール登録用ロール](./setupSaml/part2_aws.md#作業ロール登録用ロールを作成する)で作成するロール名を指定します。 |
 | aws_saml_idp          | AGIDP                    | SAML ID プロバイダ のプロバイダ名です。「SAML 連携の設定 > パート２: AWS IAM コンソールでの設定」の章で作成する[ID プロバイダ](./setupSaml/part2_aws.md#saml-id-プロバイダを作成する)で作成するプロバイダ名を指定します。|
+
+<!--
+| aws_role_registration | AG_TemporarySecurityRole | 申請したワークフローが承認されると AWS IAM に作業ロールをプロビジョニングします。その作業ロールを登録する権限を持つロール登録専用のロール名です。これは「SAML 連携の設定 > パート２: AWS IAM コンソールでの設定」の章で作成する[作業ロール登録用ロール](./setupSaml/part2_aws.md#作業ロール登録用ロールを作成する)で作成するロール名を指定します。 |
+-->
 
 
 ## roles の設定

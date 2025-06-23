@@ -50,6 +50,7 @@ Keycloak Administration Console にサインインしてコンソール画面を
          - Description: `SAML client for AWS`（任意の説明）
       - Access settings
          - IDP-Initiated SSO URL name: `aws-saml`　（IDP Initiated ログインの初期ポイントとして公開される名前に設定される）
+         - IDP Initiated SSO Relay State: `リダイレクト先URL`　（任意）
       - SAML capabilities
          - Name ID format: `email`<!--email または username を選択（ユーザーの識別子として何を使うかによって変わる）-->
          - Force Name ID Format: `ON` （選択したName ID形式を強制する）
@@ -61,12 +62,17 @@ Keycloak Administration Console にサインインしてコンソール画面を
    1. 「Save」をクリックする
 
 
-:::note
-クライアントは「IDP-Initiated SSO URL name」に指定した値を含む URL で参照できるようになります。
+:::tip
+クライアントは `IDP-Initiated SSO URL name` に指定した値を含む URL で参照できるようになります。
 
 形式： https://<YOUR_KEYCLOAK_URL>/realms/<YOUR_REALM_NAME>/protocol/saml/clients/<YOUR_IDP-Initiated_SSO_URL_name>
 
 例： https://idp.xxxx.xxx/realms/webgate/protocol/saml/clients/aws-saml
+:::
+
+:::tip
+IdPでの認証が成功した後、直接AWSマネジメントコンソールのトップページにリダイレクトされます。
+特定のサービスページにリダイレクトさせたい場合は、`IDP Initiated SSO Relay State` に URL を指定してください。
 :::
 
 
@@ -84,5 +90,3 @@ AWS 側で Keycloak を SAML IdP として認識させるために必要とな�
 :::note
 要件に応じて、SAML暗号化キーの設定を行ってください。Keys タブ - Encryption keys config
 :::
-
-

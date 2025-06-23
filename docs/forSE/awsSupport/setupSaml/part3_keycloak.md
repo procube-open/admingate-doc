@@ -31,8 +31,6 @@ sidebar_position: 30
    1. Description: `AWS switch only role` （任意の値）
    1. 「Save」をクリックする
 
-<font color="red">(TODO: 未執筆) 作業ロール登録用ロール。AWS側にロールを複数作成した場合には，同じ手順でKeycloak側にもロールを登録する</font>
-
 
 ## SAML クライアントにマッパーを追加する
 
@@ -118,6 +116,10 @@ https://docs.redhat.com/ja/documentation/red_hat_build_of_keycloak/22.0/html/ser
 1. Associated roles タブを開き、「Assign role」ボタンをクリックする
    1. 一覧から[SAML クライアントにロールを追加する](#saml-クライアントにロールを追加する)で作成した `urn:amazon:webservices` のクライアントロールを選択する（「AWSの切り替え専用ロール」）
    1. 「Assign」をクリックする
+
+:::note
+レルムロール名 `awsuser` を変える場合は、prov-tools ロールの `files/playbooks/idpUser.yml` の `realm_role_access_aws` の属性値と合わせる必要があります。
+:::
 
 
 ### ユーザにレルムロールを割り当てる
