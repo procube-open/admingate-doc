@@ -18,20 +18,35 @@ AWS アクセス制御機能を利用するためには、IDManager のサービ
 
 ## 環境変数の設定
 
-IDManager で利用する環境変数は以下のとおりです。ここでは、AWS アクセス制御機能に必要な変更可能な変数のみ示します。
+prov-tools ロールで利用する環境変数は以下のとおりです。ここでは、AWS アクセス制御機能に必要な変更可能な変数のみ示します。
 
-prov-tools ロールの `files/playbooks/vars/aws.yml` ファイルの環境変数の値を実行環境に合わせて修正します。
+`inventory/group_vars/all.yml` ファイルの環境変数の値を実行環境に合わせて修正します。
 
 | 環境変数名             | デフォルト値              | 内容                                                                              |
 | --------------------- | -------------------------| --------------------------------------------------------------------------------- |
-| aws_region            | ap-northeast-1           | AWS サービスに接続するエンドポイントのリージョンコードです。リージョンコード一覧は[こちら](https://docs.aws.amazon.com/ja_jp/general/latest/gr/rande.html#regional-endpoints)をご覧ください。 |
-| aws_iam_role_prefix   | AGM_                     | AWS のロール名に付加するプレフィックス文字です。申請したワークフローが承認されると、作業申請の作業ID にこの値が付加されたロール名で AWS IAM のロールに登録されます。 |
 | aws_role_switchonly   | AG_SwitchOnlyRole        | フェデレーティッドアイデンティティに結びつける切り替え専用ロールのロール名です。「SAML 連携の設定 > パート２: AWS IAM コンソールでの設定」の章で作成する[切り替え専用ロール](./setupSaml/part2_aws.md#切り替え専用ロールを作成する)で作成するロール名を指定します。 |
-| aws_saml_idp          | AGIDP                    | SAML ID プロバイダ のプロバイダ名です。「SAML 連携の設定 > パート２: AWS IAM コンソールでの設定」の章で作成する[ID プロバイダ](./setupSaml/part2_aws.md#saml-id-プロバイダを作成する)で作成するプロバイダ名を指定します。|
+| aws_iam_role_prefix   | AGM_                     | AWS のロール名に付加するプレフィックス文字です。申請したワークフローが承認されると、作業申請の作業ID にこの値が付加されたロール名で AWS IAM のロールに登録されます。 |
+| aws_region            | ap-northeast-1           | AWS サービスに接続するエンドポイントのリージョンコードです。リージョンコード一覧は[こちら](https://docs.aws.amazon.com/ja_jp/general/latest/gr/rande.html#regional-endpoints)をご覧ください。 |
+| boto3_retry_mode   | legacy                   | AWS SDK for Python(Boto3)による再試行モードを指定します。[値](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/retries.html#configuring-a-retry-mode)は、legacy (default), standard, and adaptive |
+| boto3_max_attempts   | 5                   | AWS SDK for Python(Boto3)による最大試行回数を指定します。 |
 
-<!--
-| aws_role_registration | AG_TemporarySecurityRole | 申請したワークフローが承認されると AWS IAM に作業ロールをプロビジョニングします。その作業ロールを登録する権限を持つロール登録専用のロール名です。これは「SAML 連携の設定 > パート２: AWS IAM コンソールでの設定」の章で作成する[作業ロール登録用ロール](./setupSaml/part2_aws.md#作業ロール登録用ロールを作成する)で作成するロール名を指定します。 |
--->
+例：
+```
+#
+# AdminGate で AWS コンソールへのアクセス制御に用いる
+#
+# AWS 切り替え専用ロール名
+aws_role_switchonly: AG_SwitchOnlyRole   # TODO: Change to your SwitchOnlyRole
+# AWS 作業ロール名のプレフィックス（ロール名は [aws_iam_role_prefix]+作業申請の業務ID となる）
+aws_iam_role_prefix: AGM_                # TODO: Change to the prefix for working roles 
+
+# AWS SDK for Python (boto3) で用いるパラメータ群
+# AWS リージョン
+aws_region: ap-northeast-1
+# リトライ処理モードおよび最大試行回数
+boto3_max_attempts: 5
+boto3_retry_mode: standard
+```
 
 
 ## roles の設定
