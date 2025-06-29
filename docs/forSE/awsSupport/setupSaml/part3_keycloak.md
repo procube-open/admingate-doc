@@ -66,6 +66,15 @@ SAML アサーションに AWS が求める情報を付与するためのマッ�
 - SAML Attribute Name Format: `Basic`
 - Aggregate attribute values: `Off`
 
+#### PrincipalTag:AdminGateTeam（マッパータイプ: User Attribute、必須）
+- Mapper Type: `User Attribute`
+- Name: `https://aws.amazon.com/SAML/Attributes/PrincipalTag:AdminGateTeam`（任意の値）
+- User Attribute: `team`
+- Friendly Name: `TeamAttribute`
+- SAML Attribute Name: `https://aws.amazon.com/SAML/Attributes/PrincipalTag:AdminGateTeam`
+- SAML Attribute Name Format: `Basic`
+- Aggregate attribute values: `Off`
+
 #### Session Duration（マッパータイプ: Hardcoded attribute、オプション）
 - Mapper Type: `Hardcoded attribute`
 - Name: `https://aws.amazon.com/SAML/Attributes/SessionDuration`（任意の値）

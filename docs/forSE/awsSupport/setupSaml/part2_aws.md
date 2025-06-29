@@ -119,7 +119,10 @@ AdminGate は、Keycloak で認証を行い、結果のSAML アサーション�
             "Principal": {
                 "Federated": "arn:aws:iam::123456789012:saml-provider/AGIDP"
             },
-            "Action": "sts:AssumeRoleWithSAML",
+            "Action": [
+                "sts:AssumeRoleWithSAML",
+                "sts:TagSession"
+            ],
             "Condition": {
                 "StringEquals": {
                     "SAML:aud": [
@@ -186,19 +189,12 @@ IDManager では申請したワークフローが承認されると、IAM に作
             "iam:DetachRolePolicy",
             "iam:DeleteRole",
          ],
-         "Resource": "*",
-         "Condition": {
-            "StringEquals": {
-               "aws:ResourceTag/ManagedBy": "AdminGate"
-            }
-         }
+         "Resource": "*"
       }
    ]
 }
 ```
 :::note
-- ``aws:ResourceTag/ManagedBy`` の Coditionは必須
-- Resource の ``123456789012`` は個別の AWS アカウントIDに変更
 - 登録失敗時にロールバックする必要があるため、DetachRolePolicy / DeleteRole も許可している
 :::
 

@@ -52,7 +52,7 @@ Keycloak Administration Console にサインインしてコンソール画面を
          - IDP-Initiated SSO URL name: `aws-saml`　（IDP Initiated ログインの初期ポイントとして公開される名前に設定される）
          - IDP Initiated SSO Relay State: `リダイレクト先URL`　（任意）
       - SAML capabilities
-         - Name ID format: `email`<!--email または username を選択（ユーザーの識別子として何を使うかによって変わる）-->
+         - Name ID format: `username`<!--email または username を選択（ユーザーの識別子として何を使うかによって変わる）-->
          - Force Name ID Format: `ON` （選択したName ID形式を強制する）
          - Force POST binding: `ON` （AWS は POST リクエストのため）
       - Signature and Encryption
