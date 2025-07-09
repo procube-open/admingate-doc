@@ -9,7 +9,7 @@ sidebar_position: 50
 
 ## IAMポリシー管理
 
-全権管理者の権限を持つユーザで IDManager にログインし、 **ID管理 > IAM ポリシー管理** を開きます。 
+全権管理者、または管理者の権限を持つユーザで IDManager にログインし、 **ID管理 > IAM ポリシー管理** を開きます。 
 
 ![IDMPolicy](/img/IDMUI_IAMPolicy.png)
 
@@ -23,6 +23,7 @@ IAMポリシー編集ガジェットの **追加** ボタンで新規登録画�
 | --- | ---|
 | ポリシー名 | IAMポリシー名。AWS IAM に登録したポリシー名と一致していなければならない。英数字と「=.@-_」の文字から成り、最大128文字とする |
 | 説明 | AWS IAM に登録したポリシーの説明。英数字と「+=,.@-_」の文字、半角スペースから成り、最大長1000文字とする。[説明の記述ガイドライン（サンプル）](/docs/forSE/awsSupport/guideDescription)|
+| 参照可能チーム | 参照可能なチームのリスト。このリストにあるチームに所属するユーザのみ、作業申請時に IAM ポリシーを参照することができる |
 
 :::note
 申請作業のIAMポリシー選択画面には、ポリシー名に加え説明が表示され、説明の列でソートも可能です。
@@ -41,14 +42,123 @@ IAMポリシー編集ガジェットの **追加** ボタンで新規登録画�
 | (空) | 「Create 」（新規作成）、「Update 」（更新）または「Delete 」（削除）を入力|
 | name | IAMポリシー名。AWS IAM に登録したポリシー名と一致していなければならない。英数字と「=.@-_」の文字から成り、最大128文字とする |
 | description | AWS IAM に登録したポリシーの説明。英数字と「+=,.@-_」の文字、半角スペースから成り、最大長1000文字とする。[説明の記述ガイドライン（サンプル）](/docs/forSE/awsSupport/guideDescription)|
+| viewTeam | 参照可能なチームのリスト |
 
 
 #### CSVファイルの例：
 ```
-,"name","description"
-"Create","iam_policy001","CRUD__UserInfomation__Full access for Administrator"
-"Create","iam_policy002","R__UserInfomation__Can only read IAM user information"
+,"name","description","viewTeam"
+"Create","iam_policy001","CRUD__UserInfomation__Full access for Administrator","[""hyperAdmin""]"
+"Create","iam_policy002","R__UserInfomation__Can only read IAM user information","[""hyperAdmin"",""TeamA""]"
 ```
+
+## IAM ロール切り替えリンクの通知設定を行う
+
+ワークフロー申請の承認が完了すると、承認された IAM ロールに切り替えるための情報を利用者に提供する必要があります。
+
+ここでは、IDManager の自動更新バッチの設定を行うことで、IAM ロールに切り替えるためのリンクを利用者にメールで通知する方法を示します。
+
+### インターフェース定義の作成
+
+<font color="red">
+(TODO: 未執筆)
+
+メール未送信承認完了IF(applovalCompletionMailIF) はパッケージとして提供するか？提供するのであれば、この項は記載しなくてよい
+</font>
+
+### 自動更新バッチの設定
+
+1. ***システム設定 > 自動更新バッチ編集*** メニューで自動更新バッチ編集画面を開く
+1. 「追加」ボタンを押して新規登録画面を開き、自動更新バッチを作成する
+
+   ここでは例として自動更新バッチ「apploveCompletionMail」を作成する。表に記載していない項目の値はデフォルト、または実行環境に合わせることを意味する
+   
+  | 属性名            | 値             |
+  | ---              | ---            |
+  | 名前              | apploveCompletionMail |
+  | 表示名            | 承認完了のお知らせ |
+  | 説明文            | 作業申請の承認完了のお知らせ用のメール送信自動更新バッチ |
+  | インタフェース名   | メール未送信承認完了IF |
+  | メールサーバ       | SMTP_test_server |
+  | SMTP認証ID        |  SMTP_test_id |
+  | SMTP認証パスワード | SMTP_test_password |
+  | メールTo          |  <%= approveMailList %> |
+  | メールFrom        |  sample@sample.com |
+  | メールタイトル     | 承認完了のお知らせ |
+  | メール本文         | 作業申請「<%= name %>」が承認されました。 <br/>  <br/> <% if (iamPolicies && iamPolicies.length > 0) { %> <br/> 以下のURLで切り替えてください。 <br/> なお、color値のカラーコードは必要に応じて変更しても構いません。 <br/> <br/> https://signin.aws.amazon.com/switchrole?account=<YOUR\_ACCOUNT\_ID>&roleName=<YOUR\_ROLE\_PREFIX><%= id %>&displayName=<%= encodeURIComponent(name) %>&color=ea7158 <br/> <% } %> | |
+  | メール集約フラグ   | false | |
+  | 自動更新          | 属性名 : 計算式 <br/> apploveCompletionDate : Date() | | 
+
+1. 「インタフェース名」を設定する
+
+   IDManager が提供するインタフェース「メール未送信承認完了IF」(applovalCompletionMailIF) を使用する。
+   「メール未送信承認完了IF」でアクセスできる属性は以下のとおり。 これらの属性の値は、以降のメールの設定に埋め込むことができる。各属性の説明については、作業(work)クラスを参照のこと
+
+   | 属性名 | 読み出しのみ |
+   | ---   | ---         |
+   | id | ○ |
+   | name | ○ |
+   | Periods | ○ |
+   | iamPolicies | ○ |
+   | approveMailList | ○ |
+   | apploveCompletionDate |  |
+
+1. 「メールTo」を設定する
+
+   メールの宛先を記述するテンプレートを指定する。テンプレート内では、 <%= 属性名 %> の形式が記述されるとインタフェースから取得されたオブジェクトの属性の値で置き換えらえる。 ここでは、インタフェース「メール未送信承認完了IF」の属性「承認者メールリスト(approveMailList)」 を使用する
+
+   <font color="red">TODO: approveMailListがリストなら _.each でループさせる？</font>
+
+1. 「メール本文」を設定する
+
+   ```
+   作業申請「<%= name %>」が承認されました。
+   
+   <% if (iamPolicies && iamPolicies.length > 0) { %>
+   以下のURLで切り替えてください。
+   なお、color値のカラーコードは必要に応じて変更しても構いません。
+   
+   https://signin.aws.amazon.com/switchrole?account=<YOUR_ACCOUNT_ID>&roleName=<YOUR_ROLE_PREFIX><%= id %>&displayName=<%= encodeURIComponent(name) %>&color=ea7158
+   <% } %>
+   ```
+   :::note
+   - URL account パラメータの値 `<YOUR_ACCOUNT_ID>` は個別の AWS アカウントIDに変更する。[こちら](hive.md#aws-アカウントid-の設定) で指定した値と同じ
+   - URL roleName パラメータの値 `<YOUR_ROLE_PREFIX>` はAWS のロール名に付加するプレフィックス文字に変更する。[こちら](hive.md#環境変数の設定) の`aws_iam_role_prefix` で指定した値と同じ。値によっては、encodeURIComponent でエンコードが必要
+   - if 文によって、IAMポリシー(iamPolicies) が指定された作業申請のときのみ URL を通知する
+   :::
+
+1. 「自動更新」の追加ボタンを押して、自動更新する属性を追加する
+
+   承認完了メール送信日時 (apploveCompletionDate) を追加する。この属性に実行日時が設定されることで、次回のメール送信自動更新バッチ処理ではメール送信対象から外れる
+
+   | 属性名 | 計算式 |
+   | ---   | ---         |
+   | apploveCompletionDate | Date() |
+
+1. 「保存」ボタンを押す
+1. プロビジョニング発効画面が表示されるので「発効」ボタンを押す
+1. プロビジョニング発効確認で「OK」ボタンを押し、プロビジョニングを発効する
+
+
+### クロックデーモンの設定
+
+1. ***システム設定 > システム設定編集*** メニューでシステム設定編集画面を開く
+1. システム設定編集画面で「更新」ボタンを押して更新画面を開き、属性の設定を行う
+1. 「クロックデーモン」の追加ボタンを押して、属性を追加する。表に記載していない項目の値はデフォルトのままにすることを意味する
+   ここでは例としてクロックデーモン「apploveCompletionDaemon」を作成する
+
+  | 属性名            | 値             |
+  | ---              | ---            |
+  | 名前 | apploveCompletionDaemon |
+  | 表示名 | 作業申請の承認完了メール送信 |
+  | 説明文 | 作業申請の承認完了メール送信のクロックデーモン |
+  | 起動周期タイプ | interval |
+  | 起動間隔 | 30 |
+  | 自動更新バッチ | 承認完了のお知らせ (apploveCompletionMail) |
+
+1. 「保存」ボタンを押します。
+1. プロビジョニング発効確認画面で「発効」ボタンを押す
+1. プロビジョニング発効確認で「OK」ボタンを押し、プロビジョニングを発効する
 
 
 ## ワークフローの申請を行なう

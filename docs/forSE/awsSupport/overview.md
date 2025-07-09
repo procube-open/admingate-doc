@@ -38,6 +38,7 @@ AdminGate では、Keycloak で認証を行い、結果の SAML アサーショ�
 1. IAM ポリシーの作成
 1. IDManager での設定
     1. IDManager の IAM ポリシー管理で、3. で作成した IAM ポリシーを登録する
+    1. IAM ロール切り替えリンクの通知設定を行う
     1. IDManager でワークフローの申請・承認を行なう
 
 :::note

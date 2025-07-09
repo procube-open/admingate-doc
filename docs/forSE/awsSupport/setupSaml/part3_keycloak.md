@@ -27,7 +27,8 @@ sidebar_position: 30
 1. ナビゲーションペインで「Manage」-「Clients」を選択し、一覧から対象クライアント `urn:amazon:webservices` の詳細を開く
 1. Roles タブを開き、「Create role」ボタンをクリックする
 1. Clients > Client details > Create role ページ
-   1. Role name: `IAMロールのARN,IDプロバイダのARN` （[ID プロバイダとロールの ARN を取得する](./part2_aws.md#id-プロバイダとロールの-arn-を取得する) で控えた ARN をカンマ区切りで入力。例：arn:aws:iam::123456789012:role/AG_SwitchOnlyRole,arn:aws:iam::123456789012:saml-provider/AGIDP）
+   1. Role name: `IAMロールのARN,IDプロバイダのARN` （[ID プロバイダとロールの ARN を取得する](./part2_aws.md#id-プロバイダとロールの-arn-を取得する) で控えた ARN をカンマ区切りで入力）
+   例：`arn:aws:iam::123456789012:role/AG_SwitchOnlyRole,arn:aws:iam::123456789012:saml-provider/AGIDP`
    1. Description: `AWS switch only role` （任意の値）
    1. 「Save」をクリックする
 
