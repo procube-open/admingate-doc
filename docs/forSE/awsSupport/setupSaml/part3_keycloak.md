@@ -44,7 +44,7 @@ SAML アサーションに AWS が求める情報を付与するためのマッ�
    1. 一覧の「urn:amazon:webservices-dedicated」をクリックし詳細を開く
    1. Clients > Client details > Dedicated scopes > urn:amazon:webservices-dedicated ページ
       1. Scope タブ を開き、Full Scope Allowed を ON から OFF に変更する
-      1. Mappers タブを開き、デフォルトで入っている Name を全件削除、または最低限のもの（<!--`https://aws.amazon.com/SAML/Attributes/RoleSessionName` と--> `https://aws.amazon.com/SAML/Attributes/Role`）を削除する
+      1. Mappers タブを開き、デフォルトで入っている Name を全件削除する
       1. Mappers タブで、「Configure a new mapper」または「Add mapper - By configure」ボタンをクリックする
       1. 「Configure a new mapper」ダイアログでマッパータイプを選択し、後述のマッパーを追加または修正する
       1. 「Save」をクリックする

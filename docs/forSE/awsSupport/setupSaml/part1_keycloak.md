@@ -82,7 +82,7 @@ AWS 側で Keycloak を SAML IdP として認識させるために必要とな�
 
 1. 前項で追加したクライアント「urn:amazon:webservices」の詳細を開く
 1. Clients > Client details > urn:amazon:webservices ページ
-   1. Actions をクリックし、「Download adaptor configs」 を選択する
+   1. Action をクリックし、「Download adaptor configs」 を選択する
    1. Format Option: 「Mod Auth Mellon files」(mod-auth-mellon) を選択する
    1. 「Download」をクリックする
 1. ダウンロードファイルを展開したうちのメタデータ XML ファイル（例: urn_amazon_webservices/idp-metadata.xml）を保存しておく
