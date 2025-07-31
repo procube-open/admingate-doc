@@ -63,27 +63,27 @@ IAMポリシー編集ガジェットの **追加** ボタンで新規登録画�
 1. ***システム設定 > 自動更新バッチ編集*** メニューで自動更新バッチ編集画面を開く
 1. 「追加」ボタンを押して新規登録画面を開き、自動更新バッチを作成する
 
-   ここでは例として自動更新バッチ「apploveCompletionMail」を作成する。表に記載していない項目の値はデフォルト、または実行環境に合わせることを意味する
+   ここでは例として自動更新バッチ「sendApproveCompletionMail」を作成する。表に記載していない項目の値はデフォルト、または実行環境に合わせることを意味する
    
   | 属性名            | 値             |
   | ---              | ---            |
-  | 名前              | apploveCompletionMail |
-  | 表示名            | 承認完了のお知らせ |
+  | 名前              | sendApproveCompletionMail |
+  | 表示名            | 承認完了メール送信 |
   | 説明文            | 作業申請の承認完了のお知らせ用のメール送信自動更新バッチ |
-  | インタフェース名   | メール未送信承認完了IF　(applovalCompletionMailIF)  |
+  | インタフェース名   | メール未送信承認完了IF　(approvalCompletionMailIF)  |
   | メールサーバ       | SMTP_test_server |
   | SMTP認証ID        |  SMTP_test_id |
   | SMTP認証パスワード | SMTP_test_password |
-  | メールTo          |  <%= approveMailList %> |
+  | メールTo          |  <%= applicationMailList  %> |
   | メールFrom        |  sample@sample.com |
   | メールタイトル     | 承認完了のお知らせ |
-  | メール本文         | 作業申請「<%= name %>」が承認されました。 <br/>  <br/> <% if (iamPolicies && iamPolicies.length > 0) { %> <br/> 以下のURLで切り替えてください。 <br/> なお、color値のカラーコードは必要に応じて変更しても構いません。 <br/> <br/> https://signin.aws.amazon.com/switchrole?account=<YOUR\_ACCOUNT\_ID>&roleName=<YOUR\_ROLE\_PREFIX><%= id %>&displayName=<%= encodeURIComponent(name) %>&color=ea7158 <br/> <% } %> | |
+  | メール本文         | 申請していた作業「<%= name %>」が承認されました。 <br/>  <br/> <% if (iamPolicies && iamPolicies.length > 0) { %> <br/> AWSのスイッチロール用URLは以下のとおりです。 <br/> なお、color値のカラーコードは必要に応じて変更しても構いません。 <br/> <br/> https://signin.aws.amazon.com/switchrole?account=<YOUR\_ACCOUNT\_ID>&roleName=<YOUR\_ROLE\_PREFIX><%= id %>&displayName=<%= encodeURIComponent(name) %>&color=ea7158 <br/> <% } %> | |
   | メール集約フラグ   | false | |
-  | 自動更新          | 属性名 : 計算式 <br/> apploveCompletionDate : Date() | | 
+  | 自動更新          | 属性名 : 計算式 <br/> approveCompletionDate : Date() | | 
 
 1. 「インタフェース名」を設定する
 
-   IDManager が提供するインタフェース「メール未送信承認完了IF」(applovalCompletionMailIF) を使用する。
+   IDManager が提供するインタフェース「メール未送信承認完了IF」(approvalCompletionMailIF) を使用する。
    「メール未送信承認完了IF」でアクセスできる属性は以下のとおり。 これらの属性の値は、以降のメールの設定に埋め込むことができる。各属性の説明については、作業(work)クラスを参照のこと
 
    | 属性名 | 読み出しのみ |
@@ -92,20 +92,20 @@ IAMポリシー編集ガジェットの **追加** ボタンで新規登録画�
    | name | ○ |
    | Periods | ○ |
    | iamPolicies | ○ |
-   | approveMailList | ○ |
-   | apploveCompletionDate |  |
+   | applicationMailList  | ○ |
+   | approveCompletionDate |  |
 
 1. 「メールTo」を設定する
 
-   メールの宛先を記述するテンプレートを指定する。テンプレート内では、 <%= 属性名 %> の形式が記述されるとインタフェースから取得されたオブジェクトの属性の値で置き換えらえる。 ここでは、インタフェース「メール未送信承認完了IF」の属性「承認者メールリスト(approveMailList)」 を使用する
+   メールの宛先を記述するテンプレートを指定する。テンプレート内では、 <%= 属性名 %> の形式が記述されるとインタフェースから取得されたオブジェクトの属性の値で置き換えらえる。 ここでは、インタフェース「メール未送信承認完了IF」の属性「申請者メールリスト(applicationMailList )」 を使用する
 
 1. 「メール本文」を設定する
 
    ```
-   作業申請「<%= name %>」が承認されました。
+   申請していた作業「<%= name %>」が承認されました。
    
    <% if (iamPolicies && iamPolicies.length > 0) { %>
-   以下のURLで切り替えてください。
+   AWSのスイッチロール用URLは以下のとおりです。
    なお、color値のカラーコードは必要に応じて変更しても構いません。
    
    https://signin.aws.amazon.com/switchrole?account=<YOUR_ACCOUNT_ID>&roleName=<YOUR_ROLE_PREFIX><%= id %>&displayName=<%= encodeURIComponent(name) %>&color=ea7158
@@ -113,17 +113,17 @@ IAMポリシー編集ガジェットの **追加** ボタンで新規登録画�
    ```
    :::note
    - URL account パラメータの値 `<YOUR_ACCOUNT_ID>` は個別の AWS アカウントIDに変更する。[こちら](hive.md#aws-アカウントid-の設定) で指定した値と同じ
-   - URL roleName パラメータの値 `<YOUR_ROLE_PREFIX>` はAWS のロール名に付加するプレフィックス文字に変更する。[こちら](hive.md#環境変数の設定) の`aws_iam_role_prefix` で指定した値と同じ。値によっては、encodeURIComponent でエンコードが必要
-   - if 文によって、IAMポリシー(iamPolicies) が指定された作業申請のときのみ URL を通知する
+   - URL roleName パラメータの値 `<YOUR_ROLE_PREFIX>` は AWS のロール名に付加するプレフィックス文字に変更する。[こちら](hive.md#環境変数の設定) の`aws_iam_role_prefix` で指定した値と同じ。値によっては、encodeURIComponent でエンコードが必要
+   - if 文によって、IAMポリシー(iamPolicies) が指定された作業申請のときのみ AWS のスイッチロール用 URL を通知する
    :::
 
 1. 「自動更新」の追加ボタンを押して、自動更新する属性を追加する
 
-   承認完了メール送信日時 (apploveCompletionDate) を追加する。この属性に実行日時が設定されることで、次回のメール送信自動更新バッチ処理ではメール送信対象から外れる
+   承認完了日時 (approveCompletionDate) を追加する。この属性に実行日時が設定されることで、次回のメール送信自動更新バッチ処理ではメール送信対象から外れる
 
    | 属性名 | 計算式 |
    | ---   | ---         |
-   | apploveCompletionDate | Date() |
+   | approveCompletionDate | Date() |
 
 1. 「保存」ボタンを押す
 1. プロビジョニング発効画面が表示されるので「発効」ボタンを押す
@@ -135,16 +135,16 @@ IAMポリシー編集ガジェットの **追加** ボタンで新規登録画�
 1. ***システム設定 > システム設定編集*** メニューでシステム設定編集画面を開く
 1. システム設定編集画面で「更新」ボタンを押して更新画面を開き、属性の設定を行う
 1. 「クロックデーモン」の追加ボタンを押して、属性を追加する。表に記載していない項目の値はデフォルトのままにすることを意味する
-   ここでは例としてクロックデーモン「apploveCompletionDaemon」を作成する
+   ここでは例としてクロックデーモン「approveCompletionDaemon」を作成する
 
   | 属性名            | 値             |
   | ---              | ---            |
-  | 名前 | apploveCompletionDaemon |
+  | 名前 | approveCompletionDaemon |
   | 表示名 | 作業申請の承認完了メール送信 |
   | 説明文 | 作業申請の承認完了メール送信のクロックデーモン |
   | 起動周期タイプ | interval |
-  | 起動間隔 | 30 |
-  | 自動更新バッチ | 承認完了のお知らせ (apploveCompletionMail) |
+  | 起動間隔 | 60 |
+  | 自動更新バッチ | 承認完了メール送信 (sendApproveCompletionMail) |
 
 1. 「保存」ボタンを押します。
 1. プロビジョニング発効確認画面で「発効」ボタンを押す
