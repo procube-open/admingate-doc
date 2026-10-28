@@ -17,9 +17,9 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'teigi-devel', // Usually your GitHub org/user name.
-  projectName: 'teigi-devel.github.io', // Usually your repo name.
-  deploymentBranch: 'main',
+  organizationName: 'procube-open', // Usually your GitHub org/user name.
+  projectName: 'admingate-doc', // Usually your repo name.
+  deploymentBranch: 'gh-pages',
   trailingSlash: false,
 
   // Even if you don't use internalization, you can use this field to set useful
