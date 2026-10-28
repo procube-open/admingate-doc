@@ -3,6 +3,8 @@ slug: /forUser
 sidebar_position: 1
 ---
 
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
 # WebUI概要
 ここではWebUIの概要について説明します。
 
@@ -44,7 +46,7 @@ AdminGateのWebUIにアクセスすると、まずホームページが開きま
 
 モードを切り替えることでそれぞれアクセス可能なページがユーザによって異なります。
 
-<img src="/img/ModeChange.png" width="50%"/>
+<img src={useBaseUrl('/img/ModeChange.png')} width="50%"/>
 
 ## フィルタ
 
@@ -82,5 +84,4 @@ AdminGateのWebUIにアクセスすると、まずホームページが開きま
 
 フィルタ条件をクリックすることで右上がマイナスボタンになるので、これを押すことでフィルタを削除することができます。
 
-<img src="/img/DeleteFilter.png" width="50%"/>
-
+<img src={useBaseUrl('/img/DeleteFilter.png')} width="50%"/>

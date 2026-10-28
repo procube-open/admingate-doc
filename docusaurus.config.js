@@ -9,8 +9,8 @@ const simplePlantUML = require("@akebifiky/remark-simple-plantuml");
 const config = {
   title: 'Admin Gate ドキュメント',
   tagline: '特権ID管理ツール',
-  url: 'https://docs.teigi.dev',
-  baseUrl: '/',
+  url: 'https://procube-open.github.io',
+  baseUrl: '/admingate-doc/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
